@@ -17,4 +17,19 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- 动画 主题 -->
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/righttoleft_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/righttoleft_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/lefttoright_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/lefttoright_out</item>
+    </style>
+    <style name="ActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">#3492E9</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">#3492E9</item>
+    </style>
 </resources>

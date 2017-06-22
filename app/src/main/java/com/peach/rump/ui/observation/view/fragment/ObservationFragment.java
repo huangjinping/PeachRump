@@ -1,7 +1,8 @@
 package com.peach.rump.ui.observation.view.fragment;
 
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.peach.rump.R;
 import com.peach.rump.bean.ObservationData;
@@ -45,7 +46,9 @@ public class ObservationFragment extends BaseFragment<ObservationPresenter, Obse
             dataList.add(new ObservationData());
         }
         adapter = new ObservationAdapter(dataList);
-        recy_observation.setLayoutManager(new LinearLayoutManager(getContext()));
+        recy_observation.setLayoutManager(new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL));
+        recy_observation.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recy_observation.setAdapter(adapter);
 
     }

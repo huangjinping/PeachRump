@@ -27,7 +27,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.observation.view.activity.ObservationPicActivity">
+        <activity android:name=".ui.observation.view.activity.ObservationPicActivity"
+            android:theme="@style/ActionBarTheme"
+            >
+        </activity>
+
+        <activity android:name=".ui.observation.view.activity.ObservationPicDetailsActivity"
+            android:theme="@style/ActionBarTheme"
+            >
 
         </activity>
         <activity android:name="com.peachrump.comm.imagePager.BigImagePagerActivity"></activity>

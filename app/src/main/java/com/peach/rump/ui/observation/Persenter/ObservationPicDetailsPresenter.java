@@ -5,6 +5,7 @@ import com.peach.rump.bean.ObservationPic;
 import com.peach.rump.bean.Pic;
 import com.peach.rump.comm.htmlparser.HtmlParser;
 import com.peach.rump.ui.observation.contract.ObservationPicContract;
+import com.peach.rump.ui.observation.contract.ObservationPicDetailContract;
 
 import java.util.List;
 
@@ -17,43 +18,44 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-import static org.jsoup.nodes.Entities.EscapeMode.base;
-
 /**
  * author Created by harrishuang on 2017/6/21.
  * email : huangjinping@hdfex.com
  */
 
-public class ObservationPicPresenter extends ObservationPicContract.Presenter {
+public class ObservationPicDetailsPresenter extends ObservationPicDetailContract.Presenter {
 
 
     public void getBaseObservation(final String url) {
 
         mView.showLoading(null);
-        Flowable.create(new FlowableOnSubscribe<List<ObservationData>>() {
+        Flowable.create(new FlowableOnSubscribe<List<Pic>>() {
             @Override
-            public void subscribe(@NonNull FlowableEmitter<List<ObservationData>> e) throws Exception {
+            public void subscribe(@NonNull FlowableEmitter<List<Pic>> e) throws Exception {
 
+
+
+                                    List<Pic> parserpic = HtmlParser.parserpic(url);
+                e.onNext(parserpic);
                 List<ObservationData> observationDatas = HtmlParser.parserParentpic(url);
 
-                for (int i = 0; i < observationDatas.size(); i++) {
-                    ObservationPic observationPic=new ObservationPic();
-                    ObservationData observationData = observationDatas.get(i);
-                    observationPic.setTitle(observationData.getTitle());
-//                    List<Pic> parserpic = HtmlParser.parserpic(observationData.getUrl());
-//                    observationPic.setPicList(parserpic);
-                    observationPic.setUrl(observationData.getUrl());
-                    e.onNext(observationDatas);
-                }
+//                for (int i = 0; i < observationDatas.size(); i++) {
+//                    ObservationPic observationPic=new ObservationPic();
+//                    ObservationData observationData = observationDatas.get(i);
+//                    observationPic.setTitle(observationData.getTitle());
+////                    List<Pic> parserpic = HtmlParser.parserpic(observationData.getUrl());
+////                    observationPic.setPicList(parserpic);
+//                    e.onNext(observationPic);
+//                }
                 System.out.println("====="+observationDatas);
             }
         }, BackpressureStrategy.BUFFER)
                 .subscribeOn(Schedulers.newThread()).
                 observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<ObservationData>>() {
+                .subscribe(new Consumer<List<Pic>>() {
                     @Override
-                    public void accept(@NonNull List<ObservationData> observationDatas) throws Exception {
-                        mView.returnObservationDatas(observationDatas);
+                    public void accept(@NonNull List<Pic> observationDatas) throws Exception {
+                        mView.returnObservationPic(observationDatas);
                         mView.stopLoading();
                     }
                 });

@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.peach.rump.R;
-import com.peach.rump.bean.ObservationPic;
 import com.peach.rump.bean.Pic;
+import com.peach.rump.comm.url.AppDebug;
+import com.peach.rump.comm.url.HttpConstant;
 import com.peachrump.comm.imagePager.BigImagePagerActivity;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class PicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Pic> dataList;
 
-    public PicAdapter( List<Pic> dataList) {
+    public PicAdapter(List<Pic> dataList) {
         this.dataList = dataList;
     }
 
@@ -38,22 +38,27 @@ public class PicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
-        ViewHolder viewHolder= (ViewHolder) holder;
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        ViewHolder viewHolder = (ViewHolder) holder;
         Pic pic = dataList.get(position);
-        if (!TextUtils.isEmpty(pic.getUrl())){
-            Glide.with(viewHolder.img_pic.getContext()).load(pic.getUrl()).into(viewHolder.img_pic);
+        if (!TextUtils.isEmpty(pic.getUrl())) {
+            if (AppDebug.DEBUG) {
+                Glide.with(viewHolder.img_pic.getContext()).load(HttpConstant.DEFAULT_PIC).into(viewHolder.img_pic);
+            } else {
+                Glide.with(viewHolder.img_pic.getContext()).load(pic.getUrl()).into(viewHolder.img_pic);
+
+            }
         }
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> picList=new ArrayList<String>();
-
-                for (int i = 0; i <dataList.size() ; i++) {
+                List<String> picList = new ArrayList<String>();
+                for (int i = 0; i < dataList.size(); i++) {
                     picList.add(dataList.get(i).getUrl());
                 }
-                BigImagePagerActivity.startImagePagerActivity((Activity) v.getContext(),picList,position);
-
+                if (!AppDebug.DEBUG) {
+                    BigImagePagerActivity.startImagePagerActivity((Activity) v.getContext(), picList, position);
+                }
             }
         });
 
@@ -65,7 +70,7 @@ public class PicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return dataList.size();
     }
 
-    public static class ViewHolder  extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public ImageView img_pic;
 

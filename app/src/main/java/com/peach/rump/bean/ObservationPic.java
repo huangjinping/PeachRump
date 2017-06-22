@@ -11,6 +11,15 @@ public class ObservationPic {
 
     private String title;
     private List<Pic> picList;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getTitle() {
         return title;
@@ -33,6 +42,7 @@ public class ObservationPic {
         return "ObservationPic{" +
                 "title='" + title + '\'' +
                 ", picList=" + picList +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

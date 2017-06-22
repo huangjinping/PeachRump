@@ -13,4 +13,8 @@ public interface HttpConstant {
     //  http://email.91dizhi.at.gmail.com.t9i.club/index.php?
     String ROCKS="http://1024.stv919.rocks/pw/";
     String ROCKS_HOME ="http://mi.99btgc.com";
+
+
+    String DEFAULT_PIC="http://www.hdfex.cn/hd-merchant-web/mobile/picture/down?file=upload/index/banner_gonggao.jpg";
+
 }

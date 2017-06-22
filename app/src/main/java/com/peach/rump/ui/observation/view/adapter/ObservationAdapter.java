@@ -30,22 +30,25 @@ public class ObservationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_obervation, parent, false);
-
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ViewHolder viewHolder= (ViewHolder) holder;
-      final   ObservationData observationData = dataList.get(position);
-        if (!TextUtils.isEmpty(observationData.getTitle())){
-            viewHolder.txt_title.setText(observationData.getTitle());
+        ViewHolder viewHolder = (ViewHolder) holder;
+        final ObservationData observationData = dataList.get(position);
+        if (!TextUtils.isEmpty(observationData.getTitle())) {
+//            viewHolder.txt_title.setText(observationData.getTitle());
+            viewHolder.txt_title.setText("dddddd");
+
         }
 
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObservationPicActivity.startAction(v.getContext(),observationData);
+                ObservationPicActivity.startAction(v.getContext(), observationData);
             }
         });
     }
