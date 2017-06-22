@@ -1,5 +1,6 @@
 package com.peach.rump.ui.observation.view.adapter;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,8 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.peach.rump.R;
-import com.peach.rump.bean.ObservationData;
-import com.peach.rump.ui.observation.view.activity.ObservationPicActivity;
+import com.peach.rump.bean.ObservationPic;
 
 import java.util.List;
 
@@ -18,38 +18,33 @@ import java.util.List;
  * email : huangjinping@hdfex.com
  */
 
-public class ObservationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ObservationPicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private List<ObservationPic> dataList;
 
-    private List<ObservationData> dataList;
-
-    public ObservationAdapter(List<ObservationData> dataList) {
+    public ObservationPicAdapter(List<ObservationPic> dataList) {
         this.dataList = dataList;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_obervation, parent, false);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_obervationpic, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ViewHolder viewHolder= (ViewHolder) holder;
-      final   ObservationData observationData = dataList.get(position);
-        if (!TextUtils.isEmpty(observationData.getTitle())){
-            viewHolder.txt_title.setText(observationData.getTitle());
+        ViewHolder viewHolder = (ViewHolder) holder;
+        ObservationPic observationPic = dataList.get(position);
+        if (!TextUtils.isEmpty(observationPic.getTitle())) {
+            viewHolder.txt_title.setText(observationPic.getTitle());
         }
+        viewHolder.recy_pic.setLayoutManager(new GridLayoutManager(viewHolder.txt_title.getContext(), 3));
+        PicAdapter adapter = new PicAdapter(observationPic.getPicList());
+        viewHolder.recy_pic.setAdapter(adapter);
 
-        viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ObservationPicActivity.startAction(v.getContext(),observationData);
-            }
-        });
+
     }
-
 
     @Override
     public int getItemCount() {
@@ -59,11 +54,13 @@ public class ObservationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public TextView txt_title;
+        public RecyclerView recy_pic;
 
         public ViewHolder(View rootView) {
             super(rootView);
             this.rootView = rootView;
             this.txt_title = (TextView) rootView.findViewById(R.id.txt_title);
+            this.recy_pic = (RecyclerView) rootView.findViewById(R.id.recy_pic);
         }
 
     }

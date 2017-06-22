@@ -26,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.observation.view.activity.ObservationPicActivity">
+
+        </activity>
+        <activity android:name="com.peachrump.comm.imagePager.BigImagePagerActivity"></activity>
     </application>
 
 </manifest>

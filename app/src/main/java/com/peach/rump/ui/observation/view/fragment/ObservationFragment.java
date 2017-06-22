@@ -1,14 +1,13 @@
 package com.peach.rump.ui.observation.view.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.peach.rump.R;
 import com.peach.rump.bean.ObservationData;
+import com.peach.rump.ui.observation.Persenter.ObservationPresenter;
+import com.peach.rump.ui.observation.contract.ObservationContract;
+import com.peach.rump.ui.observation.model.ObservationModel;
 import com.peach.rump.ui.observation.view.adapter.ObservationAdapter;
 import com.peachrump.comm.base.BaseFragment;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * email : huangjinping@hdfex.com
  */
 
-public class ObservationFragment extends BaseFragment {
+public class ObservationFragment extends BaseFragment<ObservationPresenter, ObservationModel> implements ObservationContract.View {
 
     private RecyclerView recy_observation;
     private ObservationAdapter adapter;
@@ -34,21 +33,28 @@ public class ObservationFragment extends BaseFragment {
 
     @Override
     public void initPresenter() {
-
+        mPresenter.setVM(this, mModel);
+        mPresenter.getBaseObservation();
     }
 
     @Override
     protected void initView() {
-        recy_observation=(RecyclerView)rootView.findViewById(R.id.recy_observation);
-        dataList=new ArrayList<>();
-        for (int i = 0; i <10 ; i++) {
+        recy_observation = (RecyclerView) rootView.findViewById(R.id.recy_observation);
+        dataList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
             dataList.add(new ObservationData());
         }
-        adapter=new ObservationAdapter(dataList);
+        adapter = new ObservationAdapter(dataList);
         recy_observation.setLayoutManager(new LinearLayoutManager(getContext()));
         recy_observation.setAdapter(adapter);
 
     }
 
 
+    @Override
+    public void returnObservationDatas(List<ObservationData> observationData) {
+        dataList.clear();
+        dataList.addAll(observationData);
+        adapter.notifyDataSetChanged();
+    }
 }
