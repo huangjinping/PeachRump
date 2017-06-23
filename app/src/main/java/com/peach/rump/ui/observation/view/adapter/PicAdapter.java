@@ -45,8 +45,9 @@ public class PicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (AppDebug.DEBUG) {
                 Glide.with(viewHolder.img_pic.getContext()).load(HttpConstant.DEFAULT_PIC).into(viewHolder.img_pic);
             } else {
-                Glide.with(viewHolder.img_pic.getContext()).load(pic.getUrl()).into(viewHolder.img_pic);
-
+                Glide.with(viewHolder.img_pic.getContext())
+                        .load(pic.getUrl())
+                        .centerCrop() .fitCenter().placeholder(R.mipmap.ic_launcher_round).into(viewHolder.img_pic);
             }
         }
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {

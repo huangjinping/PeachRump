@@ -3,6 +3,7 @@ package com.peach.rump.comm.htmlparser;
 import com.peach.rump.bean.ObservationData;
 import com.peach.rump.bean.ObservationPic;
 import com.peach.rump.bean.Pic;
+import com.peach.rump.comm.url.HttpConstant;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,7 +23,10 @@ public class HtmlParser {
 //    http://1024.stv919.rocks/pw/thread.php?fid=16
     public static void main(String[] paramArrayOfString) {
 //        parserRockIndex(HttpConstant.ROCKS);
-        parserParentpic("http://1024.stv919.rocks/pw/thread.php?fid=15");
+//        parserParentpic("http://1024.stv919.rocks/pw/thread.php?fid=15");
+
+        parserYinqi(HttpConstant.YINQI_91);
+
     }
 
     public static List<ObservationData> parserParentpic(String parseUrl) {
@@ -93,6 +97,28 @@ public class HtmlParser {
                     data.setUrl(base + href);
                     dataList.add(data);
                 }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(dataList.toString());
+        return dataList;
+    }
+
+    public static List<ObservationData> parserYinqi(String parseUrl) {
+        List<ObservationData> dataList = new ArrayList<>();
+        try {
+            Document document = null;
+            document = Jsoup.connect(parseUrl).timeout(50000).get();
+            Elements base = document.getElementsByAttributeValue("class","subject new");
+
+            for (int i = 0; i <base.size() ; i++) {
+                Elements a = base.select("a");
+                System.out.println(a);
+//                if (a.text().length()>2){
+//                    System.out.println(a.attr("href"));
+//                }
             }
         } catch (Exception e) {
             e.printStackTrace();

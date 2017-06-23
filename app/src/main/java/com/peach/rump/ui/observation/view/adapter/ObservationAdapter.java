@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.peach.rump.R;
 import com.peach.rump.bean.ObservationData;
+import com.peach.rump.comm.url.AppDebug;
 import com.peach.rump.ui.observation.view.activity.ObservationPicActivity;
+import com.peachrump.comm.commonutils.StringUtils;
 
 import java.util.List;
 
@@ -40,9 +42,11 @@ public class ObservationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ViewHolder viewHolder = (ViewHolder) holder;
         final ObservationData observationData = dataList.get(position);
         if (!TextUtils.isEmpty(observationData.getTitle())) {
-//            viewHolder.txt_title.setText(observationData.getTitle());
-            viewHolder.txt_title.setText("dddddd");
-
+            if (AppDebug.DEBUG) {
+                viewHolder.txt_title.setText(StringUtils.replaceAll(observationData.getTitle(), "d"));
+            } else {
+                viewHolder.txt_title.setText(observationData.getTitle());
+            }
         }
 
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {

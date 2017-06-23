@@ -5,6 +5,7 @@ import com.peach.rump.bean.ObservationPic;
 import com.peach.rump.bean.Pic;
 import com.peach.rump.comm.htmlparser.HtmlParser;
 import com.peach.rump.ui.observation.contract.ObservationPicContract;
+import com.peachrump.comm.commonutils.LoadMode;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ import static org.jsoup.nodes.Entities.EscapeMode.base;
 public class ObservationPicPresenter extends ObservationPicContract.Presenter {
 
 
-    public void getBaseObservation(final String url) {
+    public void getBaseObservation(final String url,final LoadMode mode) {
 
         mView.showLoading(null);
         Flowable.create(new FlowableOnSubscribe<List<ObservationData>>() {
@@ -53,7 +54,7 @@ public class ObservationPicPresenter extends ObservationPicContract.Presenter {
                 .subscribe(new Consumer<List<ObservationData>>() {
                     @Override
                     public void accept(@NonNull List<ObservationData> observationDatas) throws Exception {
-                        mView.returnObservationDatas(observationDatas);
+                        mView.returnObservationDatas(observationDatas,mode);
                         mView.stopLoading();
                     }
                 });

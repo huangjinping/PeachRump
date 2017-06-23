@@ -1,10 +1,9 @@
-package com.peach.rump.ui.observation.contract;
+package com.peach.rump.ui.direct.contract;
 
 import com.peach.rump.bean.ObservationData;
 import com.peachrump.comm.base.BaseModel;
 import com.peachrump.comm.base.BasePresenter;
 import com.peachrump.comm.base.BaseView;
-import com.peachrump.comm.commonutils.LoadMode;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * email : huangjinping@hdfex.com
  */
 
-public interface ObservationPicContract {
+public interface DirectContract {
 
     interface Model extends BaseModel {
 
@@ -21,7 +20,7 @@ public interface ObservationPicContract {
 
     interface View extends BaseView {
 
-        void returnObservationDatas(List<ObservationData> observationDatas, LoadMode mode);
+        void returnObservationDatas(List<ObservationData> observationData);
     }
 
     abstract static class Presenter extends BasePresenter<View, Model> {

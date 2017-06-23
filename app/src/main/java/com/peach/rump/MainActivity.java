@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.peach.rump.ui.direct.view.DirectFragment;
+import com.peach.rump.ui.direct.view.fragment.DirectParentFragment;
 import com.peach.rump.ui.observation.view.fragment.ObservationFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -95,8 +97,10 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             fragmentTransaction.replace(R.id.fragment_content, new ObservationFragment());
         } else if (id == R.id.nav_gallery) {
+            fragmentTransaction.replace(R.id.fragment_content, new DirectFragment());
 
         } else if (id == R.id.nav_slideshow) {
+            fragmentTransaction.replace(R.id.fragment_content, new DirectParentFragment());
 
         } else if (id == R.id.nav_manage) {
 

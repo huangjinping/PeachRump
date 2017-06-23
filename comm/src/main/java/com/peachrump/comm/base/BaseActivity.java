@@ -276,7 +276,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
     public void showErrorTip(String msg) {
-
+        showLongToast(msg);
     }
 
 }

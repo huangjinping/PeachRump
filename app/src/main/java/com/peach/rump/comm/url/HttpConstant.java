@@ -15,6 +15,9 @@ public interface HttpConstant {
     String ROCKS_HOME ="http://mi.99btgc.com";
 
 
+    String YINQI_91="http://91.p9a.space/forumdisplay.php?fid=21";
+
+
     String DEFAULT_PIC="http://www.hdfex.cn/hd-merchant-web/mobile/picture/down?file=upload/index/banner_gonggao.jpg";
 
 }

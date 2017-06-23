@@ -2,13 +2,12 @@ package com.peach.rump.ui.observation.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.peach.rump.R;
 import com.peach.rump.bean.ObservationData;
-import com.peach.rump.bean.ObservationPic;
 import com.peach.rump.bean.Pic;
 import com.peach.rump.ui.observation.Persenter.ObservationPicDetailsPresenter;
 import com.peach.rump.ui.observation.contract.ObservationPicDetailContract;
@@ -27,7 +26,7 @@ import java.util.List;
 public class ObservationPicDetailsActivity extends BaseActivity<ObservationPicDetailsPresenter, ObservationDetailsModel> implements ObservationPicDetailContract.View {
 
 
-    private RecyclerView recy_observation;
+    private SuperRecyclerView recy_observation;
     private List<Pic> dataList;
     private PicAdapter adapter;
     private ObservationData data;
@@ -41,21 +40,20 @@ public class ObservationPicDetailsActivity extends BaseActivity<ObservationPicDe
     public void initPresenter() {
         mPresenter.setVM(this, mModel);
     }
-
+    
     @Override
     public void initView() {
-        recy_observation = (RecyclerView) findViewById(R.id.recy_observation);
-        recy_observation.setLayoutManager(new GridLayoutManager(this, 3));
+        recy_observation = (SuperRecyclerView) findViewById(R.id.recy_observation);
         Intent intent = getIntent();
         data = (ObservationData) intent.getSerializableExtra("data");
-        dataList=new ArrayList<>();
-         adapter = new PicAdapter(dataList);
+        dataList = new ArrayList<>();
+        adapter = new PicAdapter(dataList);
         recy_observation.setLayoutManager(new LinearLayoutManager(this));
+//        recy_observation.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         recy_observation.setAdapter(adapter);
         mPresenter.getBaseObservation(data.getUrl());
 
     }
-
 
 
     public static void startAction(Context context, ObservationData observationData) {
