@@ -26,22 +26,41 @@ public class CircleBar extends View {
     private Paint mColorWheelPaint;//绘制蓝色扇形的画笔
     private Paint textPaint;//中间数值文字的画笔
     private Paint textDesPaint;//描述文字的画笔
+
+
+    private Paint textMinPaint;//下面的数字
+    private Paint textDesMinPaint;//下面的描述
+
+
     private float mColorWheelRadius;
     private float circleStrokeWidth;//圆圈的线条粗细
     private float pressExtraStrokeWidth;
     private int mTextColor = getResources().getColor(R.color.blue);//默认文字颜色
     private int mWheelColor = getResources().getColor(R.color.blue);//默认圆环颜色
 
+    private int mMinTextColor = getResources().getColor(R.color.gray);//小描述文字
+
+
     private String mText;
     private String mTextDes;//文字的描述
+
+    private String mTextMin;
+
+
+    private String mTextMinDes;//小的文字描述
+
     private int mTextDesSize;//描述文字的大小
+
+    private int mMinCount;//小面小数据的动画
     private int mCount;//为了做动画
     private float mSweepAnglePer;//扇形弧度百分比
     private float mSweepAngle;//扇形弧度
     private int mTextSize;//文字大小
     private int mDistance;// 上下文字的距离
+
     BarAnimation anim;//动画
     private int TIME = 1000;//时间
+
 
     public CircleBar(Context context) {
         super(context);
@@ -65,7 +84,7 @@ public class CircleBar extends View {
         pressExtraStrokeWidth = dip2px(getContext(), 2);
         mTextSize = dip2px(getContext(), 30);
         mTextDesSize = dip2px(getContext(), 15);
-        mDistance = dip2px(getContext(), 30);//文字距离
+        mDistance = dip2px(getContext(), 20);//文字距离
         //外圆环的画笔
         mColorWheelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mColorWheelPaint.setColor(mWheelColor);
@@ -86,13 +105,31 @@ public class CircleBar extends View {
         textPaint.setTextSize(mTextSize);
         //描述文字的画笔
         textDesPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
-        textDesPaint.setColor(getResources().getColor(R.color.gray));
+        textDesPaint.setColor(getResources().getColor(R.color.blue));
         textDesPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textDesPaint.setTextSize(mTextDesSize);
         textDesPaint.setTextAlign(Paint.Align.LEFT);
 
+
+        //小描述文字的画笔
+        textMinPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
+        textMinPaint.setColor(getResources().getColor(R.color.alpha_25_black));
+        textMinPaint.setTextSize(mTextDesSize);
+        textMinPaint.setTextAlign(Paint.Align.LEFT);
+
+        //小描述文字的画笔
+        textDesMinPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
+        textDesMinPaint.setColor(getResources().getColor(R.color.alpha_25_black));
+        textDesMinPaint.setTextSize(mTextDesSize);
+        textDesMinPaint.setTextAlign(Paint.Align.LEFT);
+
+
         mText = "0";
-        mTextDes = "本次考试";
+        mTextMin="0";
+        mTextDes = "可借额度";
+        mTextMinDes = "总额度";
+
+
         mSweepAngle = 0;
         anim = new BarAnimation();
         anim.setDuration(TIME);
@@ -103,7 +140,11 @@ public class CircleBar extends View {
         canvas.drawArc(mColorWheelRectangle, -225, 270, false, mDefaultWheelPaint);//画外接的圆环
         canvas.drawArc(mColorWheelRectangle, -225, mSweepAnglePer, false, mColorWheelPaint);//画圆环
         Rect bounds = new Rect();
-        String textstr = mCount + "";
+        String textstr = "¥" + mCount + "";
+
+
+        String textMinStr = "¥" + mMinCount + "";
+
 
         textPaint.getTextBounds(textstr, 0, textstr.length(), bounds);
         textDesPaint.getTextBounds(mTextDes, 0, mTextDes.length(), bounds);
@@ -113,13 +154,71 @@ public class CircleBar extends View {
                 textstr + "",
                 (mColorWheelRectangle.centerX())
                         - (textPaint.measureText(textstr) / 2),
-                mColorWheelRectangle.centerY() + bounds.height() / 2 - 50,
+                mColorWheelRectangle.centerY() + bounds.height() / 2,
                 textPaint);
+
+        //描述文字
         canvas.drawText(mTextDes,
                 (mColorWheelRectangle.centerX())
                         - (textDesPaint.measureText(mTextDes) / 2),
                 mColorWheelRectangle.centerY() + bounds.height() / 2 - 50 - mDistance
                 , textDesPaint);
+
+        //小数字
+        canvas.drawText(textMinStr,
+                (mColorWheelRectangle.centerX())
+                        - (textMinPaint.measureText(textMinStr) / 2),
+                mColorWheelRectangle.bottom - bounds.height() - 20
+                , textMinPaint);
+        //小描述
+
+        canvas.drawText(mTextMinDes,
+                (mColorWheelRectangle.centerX())
+                        - (textDesMinPaint.measureText(mTextMinDes) / 2),
+                mColorWheelRectangle.bottom - bounds.height() - 20 - mDistance
+                , textDesMinPaint);
+
+
+
+        canvas.drawText(textMinStr,
+                (mColorWheelRectangle.centerX())
+                        - (textMinPaint.measureText(textMinStr) / 2),
+                mColorWheelRectangle.top - 20
+                , textMinPaint);
+//        canvas.drawText(textMinStr,
+//                (mColorWheelRectangle.centerX())
+//                        - (textMinPaint.measureText(textMinStr) / 2),
+//                mColorWheelRectangle.top - 20
+//                , textMinPaint);
+
+
+
+
+
+        drawText(canvas,textMinStr,
+                mColorWheelRectangle.left-20,
+                mColorWheelRectangle.centerY()-mDistance
+                , textMinPaint,-67.5f);
+
+
+
+
+        drawText(canvas,textMinStr,
+                mColorWheelRectangle.right-30,
+                mColorWheelRectangle.centerY() -mDistance*3-20
+                , textMinPaint,67.5f);
+
+    }
+
+
+    void drawText(Canvas canvas ,String text , float x ,float y,Paint paint ,float angle){
+        if(angle != 0){
+            canvas.rotate(angle, x, y);
+        }
+        canvas.drawText(text, x, y, paint);
+        if(angle != 0){
+            canvas.rotate(-angle, x, y);
+        }
     }
 
     @Override
@@ -131,8 +230,8 @@ public class CircleBar extends View {
         setMeasuredDimension(min, min);
         mColorWheelRadius = min - circleStrokeWidth - pressExtraStrokeWidth;
 
-        mColorWheelRectangle.set(circleStrokeWidth + pressExtraStrokeWidth, circleStrokeWidth + pressExtraStrokeWidth,
-                mColorWheelRadius, mColorWheelRadius);
+        mColorWheelRectangle.set(circleStrokeWidth + pressExtraStrokeWidth+20, circleStrokeWidth + pressExtraStrokeWidth+20,
+                mColorWheelRadius-20, mColorWheelRadius+20);
     }
 
 
@@ -147,6 +246,12 @@ public class CircleBar extends View {
 
     public void setText(String text) {
         mText = text;
+        this.startAnimation(anim);
+    }
+
+
+    public void setMiniText(String text){
+        mTextMin=text;
         this.startAnimation(anim);
     }
 
@@ -190,8 +295,11 @@ public class CircleBar extends View {
             if (interpolatedTime < 1.0f) {
                 mSweepAnglePer = interpolatedTime * mSweepAngle;
                 mCount = (int) (interpolatedTime * Float.parseFloat(mText));
+
+                mMinCount = (int) (interpolatedTime * Float.parseFloat(mTextMin));
             } else {
                 mSweepAnglePer = mSweepAngle;
+                mMinCount = Integer.parseInt(mTextMin);
                 mCount = Integer.parseInt(mText);
             }
             postInvalidate();

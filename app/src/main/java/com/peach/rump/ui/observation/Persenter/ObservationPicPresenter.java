@@ -27,10 +27,16 @@ import static org.jsoup.nodes.Entities.EscapeMode.base;
 
 public class ObservationPicPresenter extends ObservationPicContract.Presenter {
 
+    private int page=1;
 
     public void getBaseObservation(final String url,final LoadMode mode) {
 
         mView.showLoading(null);
+
+        if (mode!=LoadMode.UP_REFRESH){
+            page=1;
+        }
+
         Flowable.create(new FlowableOnSubscribe<List<ObservationData>>() {
             @Override
             public void subscribe(@NonNull FlowableEmitter<List<ObservationData>> e) throws Exception {
@@ -54,6 +60,7 @@ public class ObservationPicPresenter extends ObservationPicContract.Presenter {
                 .subscribe(new Consumer<List<ObservationData>>() {
                     @Override
                     public void accept(@NonNull List<ObservationData> observationDatas) throws Exception {
+                        page++;
                         mView.returnObservationDatas(observationDatas,mode);
                         mView.stopLoading();
                     }

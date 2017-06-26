@@ -36,8 +36,9 @@ public class DirectFragment extends BaseFragment {
         btn_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                circle_Bar.setSweepAngle(270);
+                circle_Bar.setSweepAngle(67);
                 circle_Bar.setText("100");
+                circle_Bar.setMiniText("10000");
             }
         });
     }

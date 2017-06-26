@@ -1,7 +1,6 @@
 package com.peach.rump.comm.htmlparser;
 
 import com.peach.rump.bean.ObservationData;
-import com.peach.rump.bean.ObservationPic;
 import com.peach.rump.bean.Pic;
 import com.peach.rump.comm.url.HttpConstant;
 
@@ -18,7 +17,18 @@ import java.util.List;
  * email : huangjinping@hdfex.com
  */
 
+
+//  git init
+//          git add README.md
+//          git commit -m "first commit"
+//          git remote add origin git@github.com:huangjinping/PeachRump.git
+//        git push -u origin master
+//
+//git remote rm origin
+
+
 public class HtmlParser {
+//    https://bbb397.com/htm/index.htm
     //    http://1024.stv919.rocks/pw/thread.php?fid=16
 //    http://1024.stv919.rocks/pw/thread.php?fid=16
     public static void main(String[] paramArrayOfString) {
@@ -26,11 +36,27 @@ public class HtmlParser {
 //        parserParentpic("http://1024.stv919.rocks/pw/thread.php?fid=15");
 
         parserYinqi(HttpConstant.YINQI_91);
+        parserRun("https://bbb397.com/htm/index.htm");
 
     }
 
+    public  static void  parserRun(String parseUrl){
+        try {
+            Document document = null;
+            document = Jsoup.connect(parseUrl).timeout(50000).get();
+            Elements elements= document.select("a");
+            System.out.println(elements);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
     public static List<ObservationData> parserParentpic(String parseUrl) {
-        List<ObservationData> dataList=new ArrayList<>();
+        List<ObservationData> dataList = new ArrayList<>();
         try {
             Document document = null;
             document = Jsoup.connect(parseUrl).timeout(50000).get();
@@ -41,7 +67,7 @@ public class HtmlParser {
                 String id = element.attr("id");
                 if (id.startsWith("a_ajax_") && element.attr("href").endsWith(".html")) {
                     String href = element.attr("href");
-                    ObservationData observationData=new ObservationData();
+                    ObservationData observationData = new ObservationData();
                     observationData.setTitle(element.text());
                     observationData.setUrl(base + href);
                     System.out.println(element.text() + base + href);
@@ -56,7 +82,7 @@ public class HtmlParser {
 
 
     public static List<Pic> parserpic(String parseUrl) {
-        List<Pic> picList=new ArrayList<>();
+        List<Pic> picList = new ArrayList<>();
         try {
             Document document = null;
             document = Jsoup.connect(parseUrl).timeout(50000).get();
@@ -66,7 +92,7 @@ public class HtmlParser {
                 Element element = url.get(i);
                 String id = element.attr("src");
 //                System.out.println(id);
-                Pic pic=new Pic() ;
+                Pic pic = new Pic();
                 pic.setUrl(id);
                 picList.add(pic);
             }
@@ -82,7 +108,6 @@ public class HtmlParser {
         List<ObservationData> dataList = new ArrayList<>();
 
         try {
-
             Document document = null;
             document = Jsoup.connect(parseUrl).timeout(50000).get();
             String base = document.select("base#headbase").attr("href");
@@ -111,9 +136,9 @@ public class HtmlParser {
         try {
             Document document = null;
             document = Jsoup.connect(parseUrl).timeout(50000).get();
-            Elements base = document.getElementsByAttributeValue("class","subject new");
+            Elements base = document.getElementsByAttributeValue("class", "subject new");
 
-            for (int i = 0; i <base.size() ; i++) {
+            for (int i = 0; i < base.size(); i++) {
                 Elements a = base.select("a");
                 System.out.println(a);
 //                if (a.text().length()>2){

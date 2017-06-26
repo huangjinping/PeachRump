@@ -32,6 +32,8 @@ public class ObservationPicActivity extends BaseActivity<ObservationPicPresenter
     private ObservationPicAdapter adapter;
     private ObservationData data;
 
+
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_observationpic;
@@ -78,6 +80,8 @@ public class ObservationPicActivity extends BaseActivity<ObservationPicPresenter
         if (mode!=LoadMode.UP_REFRESH){
             dataList.clear();
         }
+
+
         dataList.addAll(observationDatas);
         adapter.notifyDataSetChanged();
     }
@@ -85,7 +89,6 @@ public class ObservationPicActivity extends BaseActivity<ObservationPicPresenter
     public static void startAction(Context context, ObservationData observationData) {
         Intent intent = new Intent(context, ObservationPicActivity.class);
         intent.putExtra("data", observationData);
-
         context.startActivity(intent);
     }
 }
